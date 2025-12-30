@@ -1,0 +1,5 @@
+{
+  "name": "Retrace.tw - Stock Backtester",
+  "description": "A quantitative backtesting tool for Taiwan stocks to retrieve historical data and calculate capital gains and dividends.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,59 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Build outputs
+dist
+dist-ssr
+build
+*.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment files (contains secrets)
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Cache
+.cache
+.parcel-cache
+.eslintcache
+*.tsbuildinfo
+
+# Vercel
+.vercel
+
+# Testing
+coverage
+.nyc_output
+
+# Misc
+*.pem
+*.key
