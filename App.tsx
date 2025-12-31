@@ -30,10 +30,10 @@ const App: React.FC = () => {
   const [view, setView] = useState<'dashboard' | 'results' | 'comparison'>('dashboard');
   const [loadingState, setLoadingState] = useState<LoadingState>({ status: 'idle', message: '' });
   const [showHelp, setShowHelp] = useState(false);
-  
+
   // Lifted state for InputForm to remember settings
   const [savedConfig, setSavedConfig] = useState<BacktestInput>(DEFAULT_CONFIG);
-  
+
   const [result, setResult] = useState<BacktestResult | null>(null);
   const [history, setHistory] = useState<BacktestResult[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +41,7 @@ const App: React.FC = () => {
   const handleBacktest = async (input: BacktestInput) => {
     // Save the configuration being used
     setSavedConfig(input);
-    
+
     // Reset states before starting
     setError(null);
     setResult(null);
@@ -68,7 +68,7 @@ const App: React.FC = () => {
         setHistory(prev => [result, ...prev]);
       }
     }
-    
+
     // Clear current result and go to dashboard
     setResult(null);
     setError(null);
@@ -93,7 +93,7 @@ const App: React.FC = () => {
 
   const handleDeleteHistory = (e: React.MouseEvent, id: string) => {
     e.stopPropagation(); // Prevent triggering loadHistoryItem
-    
+
     // Remove from history
     const newHistory = history.filter(h => h.id !== id);
     setHistory(newHistory);
@@ -109,8 +109,8 @@ const App: React.FC = () => {
   const totalHistoryCount = history.length + (result && !history.some(h => h.id === result.id) ? 1 : 0);
 
   return (
-    <div className="flex h-screen w-full overflow-hidden">
-      
+    <div className="flex h-[100dvh] w-full overflow-hidden">
+
       {/* Help Modal */}
       <HelpModal isOpen={showHelp} onClose={() => setShowHelp(false)} />
 
@@ -127,18 +127,18 @@ const App: React.FC = () => {
                 <span className="text-xs text-gray-500 font-medium tracking-wide">Built by CCT</span>
               </div>
             </div>
-            
+
             <div className="flex flex-col gap-2">
-              <button 
+              <button
                 onClick={() => setView('dashboard')}
                 className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-colors group ${view === 'dashboard' ? 'bg-primary/10 text-primary border border-primary/20' : 'text-gray-400 hover:text-white hover:bg-surface-dark'}`}
               >
                 <span className={`material-symbols-outlined text-[26px] ${view === 'dashboard' ? 'fill-1' : 'group-hover:text-primary transition-colors'}`}>dashboard</span>
                 <span className={`text-base ${view === 'dashboard' ? 'font-bold' : 'font-medium'}`}>開始回測 (Start)</span>
               </button>
-              
+
               <div className="flex flex-col">
-                <button 
+                <button
                   onClick={() => result && setView('results')}
                   disabled={!result && history.length === 0}
                   className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-colors group ${view === 'results' ? 'bg-primary/10 text-primary border border-primary/20' : 'text-gray-400 hover:text-white hover:bg-surface-dark disabled:opacity-50 disabled:cursor-not-allowed'}`}
@@ -153,19 +153,19 @@ const App: React.FC = () => {
                     {/* Active Result if not in history list yet */}
                     {result && !history.some(h => h.id === result.id) && (
                       <div className="group relative">
-                        <button 
+                        <button
                           onClick={() => setView('results')}
                           className={`text-left px-4 py-3 rounded-md transition-colors w-full ${view === 'results' ? 'bg-surface-dark border border-surface-border' : 'hover:bg-surface-dark/50'}`}
                         >
-                           <div className="flex justify-between items-center w-full">
-                             <div className="flex flex-col items-start min-w-0 mr-3 overflow-hidden">
-                               <span className={`text-base font-bold truncate ${view === 'results' ? 'text-white' : 'text-gray-300'}`}>{result.symbol}</span>
-                               <span className="text-sm text-gray-500 truncate">{result.stockName || '台股'}</span>
-                             </div>
-                             <span className={`text-lg font-mono font-bold whitespace-nowrap ml-auto ${result.totalReturn >= 0 ? "text-profit" : "text-loss"}`}>
-                               {result.returnRate >= 0 ? '+' : ''}{result.returnRate.toFixed(1)}%
-                             </span>
-                           </div>
+                          <div className="flex justify-between items-center w-full">
+                            <div className="flex flex-col items-start min-w-0 mr-3 overflow-hidden">
+                              <span className={`text-base font-bold truncate ${view === 'results' ? 'text-white' : 'text-gray-300'}`}>{result.symbol}</span>
+                              <span className="text-sm text-gray-500 truncate">{result.stockName || '台股'}</span>
+                            </div>
+                            <span className={`text-lg font-mono font-bold whitespace-nowrap ml-auto ${result.totalReturn >= 0 ? "text-profit" : "text-loss"}`}>
+                              {result.returnRate >= 0 ? '+' : ''}{result.returnRate.toFixed(1)}%
+                            </span>
+                          </div>
                         </button>
                       </div>
                     )}
@@ -174,7 +174,7 @@ const App: React.FC = () => {
                       const isActive = view === 'results' && result?.id === item.id;
                       return (
                         <div key={item.id} className="relative group">
-                          <button 
+                          <button
                             onClick={() => loadHistoryItem(item)}
                             className={`text-left px-4 py-3 rounded-md transition-colors w-full pr-16 ${isActive ? 'bg-surface-dark border border-surface-border' : 'hover:bg-surface-dark/50'}`}
                           >
@@ -188,7 +188,7 @@ const App: React.FC = () => {
                               </span>
                             </div>
                           </button>
-                          
+
                           {/* Delete Button */}
                           <button
                             onClick={(e) => handleDeleteHistory(e, item.id)}
@@ -209,26 +209,25 @@ const App: React.FC = () => {
           <div className="flex flex-col gap-2">
             {/* Replaced User Profile with Comparison Button */}
             <div className="mt-2 border-t border-surface-border pt-4">
-               <button 
-                 onClick={() => {
-                   // Ensure current result is in history before comparing
-                   if (result && !history.some(h => h.id === result.id)) {
-                      setHistory(prev => [result, ...prev]);
-                   }
-                   setView('comparison');
-                 }}
-                 disabled={totalHistoryCount === 0}
-                 className={`w-full flex items-center justify-center gap-2 px-3 py-3 rounded-lg border transition-all ${
-                    view === 'comparison'
+              <button
+                onClick={() => {
+                  // Ensure current result is in history before comparing
+                  if (result && !history.some(h => h.id === result.id)) {
+                    setHistory(prev => [result, ...prev]);
+                  }
+                  setView('comparison');
+                }}
+                disabled={totalHistoryCount === 0}
+                className={`w-full flex items-center justify-center gap-2 px-3 py-3 rounded-lg border transition-all ${view === 'comparison'
                     ? 'bg-primary text-background-dark border-primary font-bold shadow-lg shadow-primary/20'
                     : totalHistoryCount >= 2
-                        ? 'bg-yellow-500 text-background-dark border-yellow-500 font-bold shadow-lg shadow-yellow-500/20 hover:bg-yellow-400 animate-pulse'
-                        : 'bg-surface-dark border-surface-border text-gray-300 hover:text-white hover:bg-surface-border'
-                 } disabled:opacity-50 disabled:cursor-not-allowed`}
-               >
-                 <span className="material-symbols-outlined text-[24px]">compare_arrows</span>
-                 <span className="text-base font-bold">比較所有回測</span>
-               </button>
+                      ? 'bg-yellow-500 text-background-dark border-yellow-500 font-bold shadow-lg shadow-yellow-500/20 hover:bg-yellow-400 animate-pulse'
+                      : 'bg-surface-dark border-surface-border text-gray-300 hover:text-white hover:bg-surface-border'
+                  } disabled:opacity-50 disabled:cursor-not-allowed`}
+              >
+                <span className="material-symbols-outlined text-[24px]">compare_arrows</span>
+                <span className="text-base font-bold">比較所有回測</span>
+              </button>
             </div>
           </div>
         </div>
@@ -236,7 +235,7 @@ const App: React.FC = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-full overflow-hidden relative bg-background-light dark:bg-background-dark">
-        
+
         {/* Top Bar / Header */}
         <div className="w-full border-b border-surface-border bg-background-dark/95 backdrop-blur z-10 sticky top-0">
           <div className="max-w-7xl mx-auto px-4 py-4 md:px-6 md:py-6">
@@ -245,7 +244,7 @@ const App: React.FC = () => {
                 <h2 className="text-white text-xl md:text-3xl font-bold tracking-tight">
                   {view === 'dashboard' ? '建立新回測' : view === 'results' ? '回測結果總覽' : '多重回測比較'}
                 </h2>
-                
+
                 {result && view === 'results' && (
                   <div className="flex flex-col gap-2 md:gap-3 mt-1">
                     {/* ... Existing Result View Header content ... */}
@@ -261,34 +260,34 @@ const App: React.FC = () => {
                     </div>
 
                     <div className="flex flex-wrap items-center gap-1.5 md:gap-2">
-                       <div className="flex items-center gap-1 md:gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-surface-dark border border-surface-border text-gray-400 text-xs md:text-sm">
-                          <span className="material-symbols-outlined text-[14px] md:text-[16px]">calendar_today</span>
-                          <span className="font-mono">{result.config.startDate} ~ {result.config.endDate}</span>
-                       </div>
-                       
-                       <div className="flex items-center gap-1 md:gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-surface-dark border border-surface-border text-gray-400 text-xs md:text-sm">
-                          <span className="material-symbols-outlined text-[14px] md:text-[16px]">attach_money</span>
-                          <span className="font-mono">${result.config.investmentAmount.toLocaleString()}</span>
-                       </div>
+                      <div className="flex items-center gap-1 md:gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-surface-dark border border-surface-border text-gray-400 text-xs md:text-sm">
+                        <span className="material-symbols-outlined text-[14px] md:text-[16px]">calendar_today</span>
+                        <span className="font-mono">{result.config.startDate} ~ {result.config.endDate}</span>
+                      </div>
 
-                       <div className="flex items-center gap-1 md:gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-surface-dark border border-surface-border text-gray-400 text-xs md:text-sm">
-                          <span className="material-symbols-outlined text-[14px] md:text-[16px]">percent</span>
-                          <span>{result.config.feeDiscount}折</span>
-                       </div>
+                      <div className="flex items-center gap-1 md:gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-surface-dark border border-surface-border text-gray-400 text-xs md:text-sm">
+                        <span className="material-symbols-outlined text-[14px] md:text-[16px]">attach_money</span>
+                        <span className="font-mono">${result.config.investmentAmount.toLocaleString()}</span>
+                      </div>
 
-                       {result.config.useDRIP && (
-                         <div className="flex items-center gap-1 md:gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-surface-dark border border-surface-border text-primary text-xs md:text-sm">
-                            <span className="material-symbols-outlined text-[14px] md:text-[16px]">check</span>
-                            <span>DRIP</span>
-                         </div>
-                       )}
+                      <div className="flex items-center gap-1 md:gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-surface-dark border border-surface-border text-gray-400 text-xs md:text-sm">
+                        <span className="material-symbols-outlined text-[14px] md:text-[16px]">percent</span>
+                        <span>{result.config.feeDiscount}折</span>
+                      </div>
 
-                       {result.config.deductTax && (
-                         <div className="flex items-center gap-1 md:gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-surface-dark border border-surface-border text-gray-400 text-xs md:text-sm">
-                            <span className="material-symbols-outlined text-[14px] md:text-[16px]">account_balance</span>
-                            <span>含稅</span>
-                         </div>
-                       )}
+                      {result.config.useDRIP && (
+                        <div className="flex items-center gap-1 md:gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-surface-dark border border-surface-border text-primary text-xs md:text-sm">
+                          <span className="material-symbols-outlined text-[14px] md:text-[16px]">check</span>
+                          <span>DRIP</span>
+                        </div>
+                      )}
+
+                      {result.config.deductTax && (
+                        <div className="flex items-center gap-1 md:gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-surface-dark border border-surface-border text-gray-400 text-xs md:text-sm">
+                          <span className="material-symbols-outlined text-[14px] md:text-[16px]">account_balance</span>
+                          <span>含稅</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
@@ -298,12 +297,12 @@ const App: React.FC = () => {
                     <p className="text-sm md:text-base">同時檢視多筆模擬結果，分析不同策略或標的之走勢差異。</p>
                   </div>
                 )}
-                
+
                 {view === 'dashboard' && (
                   <p className="text-gray-400 text-xs md:text-sm max-w-2xl">輸入股票代號、設定日期區間與初始資金，系統將為您分析歷史績效與風險指標。</p>
                 )}
               </div>
-              
+
               <div className="flex items-center gap-2 md:gap-3 ml-auto self-start md:self-center">
                 {view === 'results' && (
                   <button onClick={handleNewBacktest} className="flex items-center justify-center gap-1 md:gap-2 h-9 px-3 md:h-11 md:px-6 rounded-lg bg-primary hover:bg-[#1bc755] text-background-dark text-sm md:text-base font-bold shadow-[0_0_15px_rgba(32,223,96,0.3)] transition-colors whitespace-nowrap">
@@ -313,18 +312,18 @@ const App: React.FC = () => {
                 )}
                 {view === 'comparison' && (
                   <button onClick={handleNewBacktest} className="flex items-center justify-center gap-1 md:gap-2 h-9 px-3 md:h-11 md:px-6 rounded-lg bg-surface-dark hover:bg-surface-border text-white border border-surface-border text-sm md:text-base font-bold transition-colors whitespace-nowrap">
-                     <span className="material-symbols-outlined text-[18px] md:text-[22px]">arrow_back</span>
-                     Back to Input
+                    <span className="material-symbols-outlined text-[18px] md:text-[22px]">arrow_back</span>
+                    Back to Input
                   </button>
                 )}
                 {view === 'dashboard' && (
-                   <button 
-                     onClick={() => setShowHelp(true)}
-                     className="text-primary text-xs md:text-sm flex items-center gap-1 hover:underline px-2 whitespace-nowrap bg-transparent border-none cursor-pointer"
-                   >
-                      <span className="material-symbols-outlined text-[16px] md:text-[18px]">help</span>
-                      如何設定?
-                   </button>
+                  <button
+                    onClick={() => setShowHelp(true)}
+                    className="text-primary text-xs md:text-sm flex items-center gap-1 hover:underline px-2 whitespace-nowrap bg-transparent border-none cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-[16px] md:text-[18px]">help</span>
+                    如何設定?
+                  </button>
                 )}
               </div>
             </div>
@@ -334,28 +333,28 @@ const App: React.FC = () => {
         {/* Content Body */}
         <div className="flex-1 overflow-y-auto p-4 md:p-6 scrollbar-hide">
           <div className="max-w-7xl mx-auto flex flex-col gap-6 pb-12 h-full">
-            
+
             {/* View: Dashboard / Input */}
             {view === 'dashboard' && (
               <div className="w-full pt-4">
-                <InputForm 
+                <InputForm
                   initialValues={savedConfig}
-                  onSubmit={handleBacktest} 
-                  isLoading={loadingState.status === 'searching' || loadingState.status === 'calculating'} 
+                  onSubmit={handleBacktest}
+                  isLoading={loadingState.status === 'searching' || loadingState.status === 'calculating'}
                 />
-                
+
                 {/* Loading State Overlay */}
                 {(loadingState.status === 'searching' || loadingState.status === 'calculating') && (
                   <div className="mt-8 p-8 rounded-xl border border-surface-border bg-surface-dark flex items-center justify-center gap-4 animate-pulse">
-                     <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                     <p className="text-primary text-lg font-medium">{loadingState.message}</p>
+                    <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-primary text-lg font-medium">{loadingState.message}</p>
                   </div>
                 )}
 
                 {error && (
                   <div className="mt-8 p-6 rounded-xl border border-red-500/20 bg-red-500/10 flex items-center gap-4 text-red-400 text-lg">
-                     <span className="material-symbols-outlined text-[28px]">error</span>
-                     <p>{error}</p>
+                    <span className="material-symbols-outlined text-[28px]">error</span>
+                    <p>{error}</p>
                   </div>
                 )}
               </div>
@@ -368,8 +367,8 @@ const App: React.FC = () => {
 
             {/* View: Comparison */}
             {view === 'comparison' && (
-              <ComparisonView 
-                history={result && !history.some(h => h.id === result.id) ? [result, ...history] : history} 
+              <ComparisonView
+                history={result && !history.some(h => h.id === result.id) ? [result, ...history] : history}
                 onBack={handleNewBacktest}
               />
             )}
