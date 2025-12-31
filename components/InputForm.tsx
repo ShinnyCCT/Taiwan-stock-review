@@ -66,28 +66,28 @@ const InputForm: React.FC<InputFormProps> = ({ initialValues, onSubmit, isLoadin
   };
 
   // Compact Styles
-  const sectionTitleClass = "text-white text-base font-bold flex items-center gap-2 mb-3";
-  const labelClass = "block mb-1.5 text-xs font-medium text-gray-300";
-  const inputClass = "w-full bg-background-dark/50 border border-surface-border text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 placeholder-gray-600 transition-colors hover:border-gray-500";
+  const sectionTitleClass = "text-white text-sm md:text-base font-bold flex items-center gap-2 mb-2 md:mb-3";
+  const labelClass = "block mb-1 text-xs font-medium text-gray-300";
+  const inputClass = "w-full bg-background-dark/50 border border-surface-border text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2 md:p-2.5 placeholder-gray-600 transition-colors hover:border-gray-500";
   const dateBtnClass = (active: boolean) =>
-    `px-3 py-1.5 text-xs rounded-full font-medium transition-all border ${active
+    `px-2 py-1 md:px-3 md:py-1.5 text-xs rounded-full font-medium transition-all border ${active
       ? 'bg-primary/20 text-primary border-primary'
       : 'bg-surface-border/50 text-gray-400 border-transparent hover:bg-surface-border hover:text-white'
     }`;
 
   return (
-    <div className="bg-surface-dark border border-surface-border rounded-xl p-5 shadow-sm">
+    <div className="bg-surface-dark border border-surface-border rounded-xl p-4 md:p-5 shadow-sm">
       <form onSubmit={handleSubmit}>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-6 gap-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-6 gap-y-4 md:gap-y-6">
 
           {/* Left Column: Stock & Date (Col Span 7) */}
-          <div className="lg:col-span-7 flex flex-col gap-5">
+          <div className="lg:col-span-7 flex flex-col gap-3 md:gap-5">
 
             {/* Stock Section */}
             <div>
               <h3 className={sectionTitleClass}>
-                <span className="material-symbols-outlined text-primary text-[20px]">search</span>
+                <span className="material-symbols-outlined text-primary text-[18px] md:text-[20px]">search</span>
                 標的設定
               </h3>
               <div>
@@ -108,19 +108,19 @@ const InputForm: React.FC<InputFormProps> = ({ initialValues, onSubmit, isLoadin
 
             {/* Date Section */}
             <div>
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center justify-between mb-2 md:mb-3">
                 <h3 className={`${sectionTitleClass} !mb-0`}>
-                  <span className="material-symbols-outlined text-primary text-[20px]">calendar_month</span>
+                  <span className="material-symbols-outlined text-primary text-[18px] md:text-[20px]">calendar_month</span>
                   回測區間
                 </h3>
-                <div className="flex gap-2">
+                <div className="flex gap-1 md:gap-2">
                   <button type="button" onClick={() => setDateRange('1Y')} className={dateBtnClass(false)}>近一年</button>
                   <button type="button" onClick={() => setDateRange('3Y')} className={dateBtnClass(false)}>近三年</button>
                   <button type="button" onClick={() => setDateRange('5Y')} className={dateBtnClass(false)}>近五年</button>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                 <div className="w-full">
                   <label className={labelClass}>開始日期</label>
                   <input
