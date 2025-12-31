@@ -165,78 +165,138 @@ const App: React.FC = () => {
         {/* Top Bar / Header */}
         <div className="w-full border-b border-surface-border bg-background-dark/95 backdrop-blur z-10 sticky top-0">
           <div className="max-w-7xl mx-auto px-4 py-4 md:px-6 md:py-6">
-            <div className="flex flex-wrap items-center justify-between gap-3 md:gap-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4">
 
-              {/* Title & Mobile Menu Toggle */}
-              <div className="flex items-center gap-3 w-full md:w-auto">
-                {/* Mobile Menu Button */}
-                <button
-                  onClick={() => setIsMobileMenuOpen(true)}
-                  className="md:hidden p-2 -ml-2 text-gray-400 hover:text-white rounded-lg active:bg-surface-dark"
-                >
-                  <span className="material-symbols-outlined text-[28px]">menu</span>
-                </button>
+              {/* Top Row: Title & Actions (Single row on mobile) */}
+              <div className="flex items-center justify-between w-full md:w-auto">
+                <div className="flex items-center gap-3">
+                  {/* Mobile Menu Button */}
+                  <button
+                    onClick={() => setIsMobileMenuOpen(true)}
+                    className="md:hidden p-2 -ml-2 text-gray-400 hover:text-white rounded-lg active:bg-surface-dark"
+                  >
+                    <span className="material-symbols-outlined text-[28px]">menu</span>
+                  </button>
 
-                <div className="flex flex-col gap-1 md:gap-2">
                   <h2 className="text-white text-xl md:text-3xl font-bold tracking-tight">
                     {view === 'dashboard' ? '建立新回測' : view === 'results' ? '回測結果總覽' : '多重回測比較'}
                   </h2>
+                </div>
 
-                  {result && view === 'results' && (
-                    <div className="flex flex-col gap-2 md:gap-3 mt-1">
-                      {/* Result summary tags... keeping existing logic */}
-                      <div className="flex flex-wrap items-center gap-2 md:gap-3 text-gray-300">
-                        <span className="bg-surface-dark px-2 py-0.5 md:px-3 md:py-1 rounded text-sm md:text-base font-mono font-bold text-white border border-surface-border tracking-wider">{result.symbol}</span>
-                        <span className="text-base md:text-lg font-medium">{result.stockName}</span>
-                        <span className="hidden md:inline-block w-1.5 h-1.5 bg-gray-600 rounded-full mx-1"></span>
-                        <span className="text-primary text-xs md:text-sm font-medium flex items-center gap-1">
-                          <span className="material-symbols-outlined text-[14px] md:text-[16px]">check_circle</span>
-                          <span className="hidden md:inline">Calculation Completed</span>
-                          <span className="md:hidden">Done</span>
-                        </span>
-                      </div>
-
-                      <div className="hidden sm:flex flex-wrap items-center gap-1.5 md:gap-2">
-                        <div className="flex items-center gap-1 md:gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-surface-dark border border-surface-border text-gray-400 text-xs md:text-sm">
-                          <span className="material-symbols-outlined text-[14px] md:text-[16px]">calendar_today</span>
-                          <span className="font-mono">{result.config.startDate} ~ {result.config.endDate}</span>
-                        </div>
-                        {/* ... other tags (hidden on very small screens to save space if needed, or keep them) */}
-                        <div className="flex items-center gap-1 md:gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-surface-dark border border-surface-border text-gray-400 text-xs md:text-sm">
-                          <span className="material-symbols-outlined text-[14px] md:text-[16px]">attach_money</span>
-                          <span className="font-mono">${result.config.investmentAmount.toLocaleString()}</span>
-                        </div>
-                      </div>
-                    </div>
+                {/* Mobile Actions (Moved here for single row layout) */}
+                <div className="md:hidden flex items-center">
+                  {view === 'comparison' && (
+                    <button onClick={handleNewBacktest} className="flex items-center justify-center gap-1 h-8 px-2 rounded-lg bg-surface-dark hover:bg-surface-border text-white border border-surface-border text-sm font-bold transition-colors whitespace-nowrap">
+                      <span className="material-symbols-outlined text-[18px]">arrow_back</span>
+                      Back
+                    </button>
+                  )}
+                  {view === 'dashboard' && (
+                    <button
+                      onClick={() => setShowHelp(true)}
+                      className="text-primary text-xs flex items-center gap-1 hover:underline px-2 whitespace-nowrap bg-transparent border-none cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined text-[16px]">help</span>
+                      如何設定?
+                    </button>
                   )}
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 md:gap-3 ml-auto self-start md:self-center">
-                {view === 'results' && (
-                  // HIDDEN on mobile, shown on desktop
-                  <button onClick={handleNewBacktest} className="hidden md:flex items-center justify-center gap-1 md:gap-2 h-9 px-3 md:h-11 md:px-6 rounded-lg bg-primary hover:bg-[#1bc755] text-background-dark text-sm md:text-base font-bold shadow-[0_0_15px_rgba(32,223,96,0.3)] transition-colors whitespace-nowrap">
-                    <span className="material-symbols-outlined text-[18px] md:text-[22px]">add</span>
-                    New Backtest
-                  </button>
+              {/* Desktop Actions & Result Summary Tags */}
+              <div className="flex flex-col md:items-end gap-2 w-full md:w-auto">
+
+                {/* Result Tags (Wraps on mobile below title) */}
+                {result && view === 'results' && (
+                  <div className="flex flex-col gap-2 md:gap-3 mt-1 md:mt-0 md:items-end">
+                    {/* ... Existing Result View Header content ... */}
+                    <div className="flex flex-wrap items-center gap-2 md:gap-3 text-gray-300">
+                      <span className="bg-surface-dark px-2 py-0.5 md:px-3 md:py-1 rounded text-sm md:text-base font-mono font-bold text-white border border-surface-border tracking-wider">{result.symbol}</span>
+                      <span className="text-base md:text-lg font-medium">{result.stockName}</span>
+                      <span className="hidden md:inline-block w-1.5 h-1.5 bg-gray-600 rounded-full mx-1"></span>
+                      <span className="text-primary text-xs md:text-sm font-medium flex items-center gap-1">
+                        <span className="material-symbols-outlined text-[14px] md:text-[16px]">check_circle</span>
+                        <span className="hidden md:inline">Calculation Completed</span>
+                        <span className="md:hidden">Done</span>
+                      </span>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-1.5 md:gap-2">
+                      <div className="flex items-center gap-1 md:gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-surface-dark border border-surface-border text-gray-400 text-xs md:text-sm">
+                        <span className="material-symbols-outlined text-[14px] md:text-[16px]">calendar_today</span>
+                        <span className="font-mono">{result.config.startDate} ~ {result.config.endDate}</span>
+                      </div>
+
+                      <div className="flex items-center gap-1 md:gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-surface-dark border border-surface-border text-gray-400 text-xs md:text-sm">
+                        <span className="material-symbols-outlined text-[14px] md:text-[16px]">attach_money</span>
+                        <span className="font-mono">${result.config.investmentAmount.toLocaleString()}</span>
+                      </div>
+
+                      <div className="flex items-center gap-1 md:gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-surface-dark border border-surface-border text-gray-400 text-xs md:text-sm">
+                        <span className="material-symbols-outlined text-[14px] md:text-[16px]">percent</span>
+                        <span>{result.config.feeDiscount}折</span>
+                      </div>
+
+                      {result.config.useDRIP && (
+                        <div className="flex items-center gap-1 md:gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-surface-dark border border-surface-border text-primary text-xs md:text-sm">
+                          <span className="material-symbols-outlined text-[14px] md:text-[16px]">check</span>
+                          <span>DRIP</span>
+                        </div>
+                      )}
+
+                      {result.config.deductTax && (
+                        <div className="flex items-center gap-1 md:gap-1.5 px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-surface-dark border border-surface-border text-gray-400 text-xs md:text-sm">
+                          <span className="material-symbols-outlined text-[14px] md:text-[16px]">account_balance</span>
+                          <span>含稅</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 )}
-                {view === 'comparison' && (
-                  <button onClick={handleNewBacktest} className="flex items-center justify-center gap-1 md:gap-2 h-9 px-3 md:h-11 md:px-6 rounded-lg bg-surface-dark hover:bg-surface-border text-white border border-surface-border text-sm md:text-base font-bold transition-colors whitespace-nowrap">
-                    <span className="material-symbols-outlined text-[18px] md:text-[22px]">arrow_back</span>
-                    Back to Input
-                  </button>
-                )}
-                {view === 'dashboard' && (
-                  <button
-                    onClick={() => setShowHelp(true)}
-                    className="text-primary text-xs md:text-sm flex items-center gap-1 hover:underline px-2 whitespace-nowrap bg-transparent border-none cursor-pointer"
-                  >
-                    <span className="material-symbols-outlined text-[16px] md:text-[18px]">help</span>
-                    如何設定?
-                  </button>
-                )}
+
+                {/* Desktop Buttons (Hidden on mobile) */}
+                <div className="hidden md:flex items-center gap-3 ml-auto self-center">
+                  {view === 'results' && (
+                    <button onClick={handleNewBacktest} className="flex items-center justify-center gap-2 h-11 px-6 rounded-lg bg-primary hover:bg-[#1bc755] text-background-dark text-base font-bold shadow-[0_0_15px_rgba(32,223,96,0.3)] transition-colors whitespace-nowrap">
+                      <span className="material-symbols-outlined text-[20px]">add</span>
+                      New Backtest
+                    </button>
+                  )}
+                  {view === 'comparison' && (
+                    <button onClick={handleNewBacktest} className="flex items-center justify-center gap-2 h-11 px-6 rounded-lg bg-surface-dark hover:bg-surface-border text-white border border-surface-border text-base font-bold transition-colors whitespace-nowrap">
+                      <span className="material-symbols-outlined text-[20px]">arrow_back</span>
+                      Back to Input
+                    </button>
+                  )}
+                  {view === 'dashboard' && (
+                    <button
+                      onClick={() => setShowHelp(true)}
+                      className="text-primary text-sm flex items-center gap-1 hover:underline px-2 whitespace-nowrap bg-transparent border-none cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">help</span>
+                      如何設定?
+                    </button>
+                  )}
+                </div>
+
               </div>
             </div>
+
+            {/* Mobile Descriptions (Below title/header) */}
+            <div className="md:hidden mt-2">
+              {/* Result Tags are already handled above in the right column div which wraps on mobile */}
+              {/* We just need to ensure Descriptions show up if needed, or if they are hidden/moved */}
+              {view === 'comparison' && (
+                <div className="flex items-center gap-3 text-gray-400 mt-1">
+                  <p className="text-sm">同時檢視多筆模擬結果，分析不同策略或標的之走勢差異。</p>
+                </div>
+              )}
+
+              {view === 'dashboard' && (
+                <p className="text-gray-400 text-xs max-w-2xl">輸入股票代號、設定日期區間與初始資金，系統將為您分析歷史績效與風險指標。</p>
+              )}
+            </div>
+
           </div>
         </div>
 
