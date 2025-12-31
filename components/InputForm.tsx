@@ -111,7 +111,7 @@ const InputForm: React.FC<InputFormProps> = ({ initialValues, onSubmit, isLoadin
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-6">
                 <div>
                   <label className={labelClass}>開始日期</label>
                   <input
@@ -224,8 +224,8 @@ const InputForm: React.FC<InputFormProps> = ({ initialValues, onSubmit, isLoadin
                 type="submit"
                 disabled={isLoading}
                 className={`flex-[2] flex items-center justify-center gap-2 py-2.5 rounded-lg text-background-dark font-bold text-sm shadow-[0_0_15px_rgba(32,223,96,0.2)] transition-all ${isLoading
-                    ? 'bg-gray-600 cursor-not-allowed opacity-70'
-                    : 'bg-primary hover:bg-[#1bc755] hover:shadow-[0_0_20px_rgba(32,223,96,0.4)] transform hover:-translate-y-0.5'
+                  ? 'bg-gray-600 cursor-not-allowed opacity-70'
+                  : 'bg-primary hover:bg-[#1bc755] hover:shadow-[0_0_20px_rgba(32,223,96,0.4)] transform hover:-translate-y-0.5'
                   }`}
               >
                 {isLoading ? '運算中...' : '開始回測'}
