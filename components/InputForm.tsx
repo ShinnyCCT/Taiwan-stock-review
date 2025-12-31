@@ -17,13 +17,17 @@ const InputForm: React.FC<InputFormProps> = ({ initialValues, onSubmit, isLoadin
   const maxAllowedDate = useMemo(() => {
     const d = new Date();
     d.setDate(d.getDate() - 1);
-    return d.toISOString().split('T')[0];
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }, []);
 
   const setDateRange = (type: '1Y' | '3Y' | '5Y' | 'YTD') => {
     const endDateStr = maxAllowedDate;
     const endDateObj = new Date();
-    endDateObj.setDate(endDateObj.getDate() - 1);
+    endDateObj.setDate(endDateObj.getDate() - 1); // Yesterday
+
     const startDateObj = new Date(endDateObj);
 
     switch (type) {
@@ -35,7 +39,12 @@ const InputForm: React.FC<InputFormProps> = ({ initialValues, onSubmit, isLoadin
         startDateObj.setFullYear(endDateObj.getFullYear());
         break;
     }
-    setFormData(prev => ({ ...prev, startDate: startDateObj.toISOString().split('T')[0], endDate: endDateStr }));
+
+    const sy = startDateObj.getFullYear();
+    const sm = String(startDateObj.getMonth() + 1).padStart(2, '0');
+    const sd = String(startDateObj.getDate()).padStart(2, '0');
+
+    setFormData(prev => ({ ...prev, startDate: `${sy}-${sm}-${sd}`, endDate: endDateStr }));
   };
 
   const handleReset = () => {
