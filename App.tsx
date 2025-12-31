@@ -315,7 +315,7 @@ const App: React.FC = () => {
             </div>
 
             {/* Mobile Descriptions (Below title/header) */}
-            <div className="md:hidden mt-2">
+            <div className="md:hidden mt-1">
               {/* Result Tags are already handled above in the right column div which wraps on mobile */}
               {/* We just need to ensure Descriptions show up if needed, or if they are hidden/moved */}
               {view === 'comparison' && (
