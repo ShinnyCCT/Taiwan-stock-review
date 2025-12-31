@@ -99,13 +99,14 @@ const Sidebar: React.FC<SidebarProps> = ({
                                             </button>
 
                                             {/* Delete Button */}
-                                            <button
-                                                onClick={(e) => handleDeleteHistory(e, item.id)}
-                                                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full text-gray-500 hover:text-red-500 hover:bg-white/10 opacity-0 group-hover:opacity-100 transition-all z-10"
-                                                title="刪除紀錄"
-                                            >
-                                                <span className="material-symbols-outlined text-[20px]">delete</span>
-                                            </button>
+                                          {/* Delete Button */}
+                      <button
+                        onClick={(e) => handleDeleteHistory(e, item.id)}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full text-gray-600 md:text-gray-500 hover:text-red-500 hover:bg-white/10 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all z-10"
+                        title="刪除紀錄"
+                      >
+                        <span className="material-symbols-outlined text-[20px]">delete</span>
+                      </button>                      </button>
                                         </div>
                                     );
                                 })}
@@ -139,7 +140,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     </button>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

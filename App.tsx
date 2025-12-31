@@ -291,9 +291,9 @@ const App: React.FC = () => {
           <div className="md:hidden absolute bottom-6 inset-x-4 z-20">
             <button
               onClick={handleNewBacktest}
-              className="w-full flex items-center justify-center gap-2 h-14 rounded-xl bg-primary hover:bg-[#1bc755] text-background-dark text-lg font-bold shadow-[0_4px_20px_rgba(32,223,96,0.4)] transition-transform py-3"
+              className="w-full flex items-center justify-center gap-2 h-11 rounded-xl bg-primary hover:bg-[#1bc755] text-background-dark text-base font-bold shadow-[0_4px_20px_rgba(32,223,96,0.4)] transition-transform"
             >
-              <span className="material-symbols-outlined text-[24px]">add</span>
+              <span className="material-symbols-outlined text-[20px]">add</span>
               建立新回測 (New Backtest)
             </button>
           </div>
