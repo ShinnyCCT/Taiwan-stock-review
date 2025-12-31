@@ -132,26 +132,30 @@ const InputForm: React.FC<InputFormProps> = ({ initialValues, onSubmit, isLoadin
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                 <div className="w-full">
                   <label className={labelClass}>開始日期</label>
-                  <input
-                    type="date"
-                    required
-                    max={formData.endDate}
-                    value={formData.startDate}
-                    onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                    className={`${inputClass} pr-10`}
-                  />
+                  <div className="relative">
+                    <input
+                      type="date"
+                      required
+                      max={formData.endDate}
+                      value={formData.startDate}
+                      onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                      className={`${inputClass} pr-10`}
+                    />
+                  </div>
                 </div>
                 <div className="w-full">
                   <label className={labelClass}>結束日期</label>
-                  <input
-                    type="date"
-                    required
-                    min={formData.startDate}
-                    max={maxAllowedDate}
-                    value={formData.endDate}
-                    onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                    className={`${inputClass} pr-10`}
-                  />
+                  <div className="relative">
+                    <input
+                      type="date"
+                      required
+                      min={formData.startDate}
+                      max={maxAllowedDate}
+                      value={formData.endDate}
+                      onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                      className={`${inputClass} pr-10`}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

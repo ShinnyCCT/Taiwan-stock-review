@@ -43,11 +43,13 @@ const App: React.FC = () => {
   // Swipe Gesture Logic
   const touchStartRef = React.useRef<number | null>(null);
   const touchEndRef = React.useRef<number | null>(null);
-  const minSwipeDistance = 50; // px
+  const touchStartTargetRef = React.useRef<HTMLElement | null>(null);
+  const minSwipeDistance = 75; // px - increased from 50 to make it more deliberate
 
   const onTouchStart = (e: React.TouchEvent) => {
     touchEndRef.current = null;
     touchStartRef.current = e.targetTouches[0].clientX;
+    touchStartTargetRef.current = e.target as HTMLElement;
   };
 
   const onTouchMove = (e: React.TouchEvent) => {
@@ -61,8 +63,11 @@ const App: React.FC = () => {
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
 
-    // Right swipe to open sidebar (works from anywhere on screen)
-    if (isRightSwipe) {
+    // Check if touch started inside a scrollable table (Events Log)
+    const startedInScrollable = touchStartTargetRef.current?.closest('.overflow-x-auto, table, tbody, td, th');
+
+    // Right swipe to open sidebar (works from anywhere on screen, except in scrollable areas)
+    if (isRightSwipe && !startedInScrollable) {
       setIsMobileMenuOpen(true);
     }
   };
