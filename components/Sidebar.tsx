@@ -99,14 +99,13 @@ const Sidebar: React.FC<SidebarProps> = ({
                                             </button>
 
                                             {/* Delete Button */}
-                                          {/* Delete Button */}
-                      <button
-                        onClick={(e) => handleDeleteHistory(e, item.id)}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full text-gray-600 md:text-gray-500 hover:text-red-500 hover:bg-white/10 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all z-10"
-                        title="刪除紀錄"
-                      >
-                        <span className="material-symbols-outlined text-[20px]">delete</span>
-                      </button>                      </button>
+                                            <button
+                                                onClick={(e) => handleDeleteHistory(e, item.id)}
+                                                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full text-gray-600 md:text-gray-500 hover:text-red-500 hover:bg-white/10 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all z-10"
+                                                title="刪除紀錄"
+                                            >
+                                                <span className="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
                                         </div>
                                     );
                                 })}
@@ -129,10 +128,10 @@ const Sidebar: React.FC<SidebarProps> = ({
                         }}
                         disabled={totalHistoryCount === 0}
                         className={`w-full flex items-center justify-center gap-2 px-3 py-3 rounded-lg border transition-all ${view === 'comparison'
-                                ? 'bg-primary text-background-dark border-primary font-bold shadow-lg shadow-primary/20'
-                                : totalHistoryCount >= 2
-                                    ? 'bg-yellow-500 text-background-dark border-yellow-500 font-bold shadow-lg shadow-yellow-500/20 hover:bg-yellow-400 animate-pulse'
-                                    : 'bg-surface-dark border-surface-border text-gray-300 hover:text-white hover:bg-surface-border'
+                            ? 'bg-primary text-background-dark border-primary font-bold shadow-lg shadow-primary/20'
+                            : totalHistoryCount >= 2
+                                ? 'bg-yellow-500 text-background-dark border-yellow-500 font-bold shadow-lg shadow-yellow-500/20 hover:bg-yellow-400 animate-pulse'
+                                : 'bg-surface-dark border-surface-border text-gray-300 hover:text-white hover:bg-surface-border'
                             } disabled:opacity-50 disabled:cursor-not-allowed`}
                     >
                         <span className="material-symbols-outlined text-[24px]">compare_arrows</span>
