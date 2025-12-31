@@ -92,14 +92,26 @@ const InputForm: React.FC<InputFormProps> = ({ initialValues, onSubmit, isLoadin
               </h3>
               <div>
                 <label className={labelClass}>股票代號 / 名稱</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="例如：2330 或 台積電"
-                  value={formData.symbol}
-                  onChange={(e) => setFormData({ ...formData, symbol: e.target.value })}
-                  className={inputClass}
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    required
+                    placeholder="例如：2330 或 台積電"
+                    value={formData.symbol}
+                    onChange={(e) => setFormData({ ...formData, symbol: e.target.value })}
+                    className={`${inputClass} pr-10`}
+                  />
+                  {formData.symbol && (
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, symbol: '' })}
+                      className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-white transition-colors"
+                      aria-label="Clear"
+                    >
+                      <span className="material-symbols-outlined text-[20px]">close</span>
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
 
