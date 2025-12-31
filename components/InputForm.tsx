@@ -100,7 +100,7 @@ const InputForm: React.FC<InputFormProps> = ({ initialValues, onSubmit, isLoadin
                     placeholder="例如：2330 或 台積電"
                     value={formData.symbol}
                     onChange={(e) => setFormData({ ...formData, symbol: e.target.value })}
-                    className={`${inputClass} pl-10`}
+                    className={`${inputClass} pl-12`}
                   />
                 </div>
               </div>

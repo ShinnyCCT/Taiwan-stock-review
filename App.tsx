@@ -61,8 +61,8 @@ const App: React.FC = () => {
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
 
-    // Right swipe (start from left edge < 50px) to open sidebar
-    if (isRightSwipe && touchStartRef.current < 50) {
+    // Right swipe (start from left edge < 100px) to open sidebar
+    if (isRightSwipe && touchStartRef.current < 100) {
       setIsMobileMenuOpen(true);
     }
   };

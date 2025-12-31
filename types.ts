@@ -16,7 +16,7 @@ export interface ChartDataPoint {
 
 export interface TransactionEvent {
   date: string;
-  type: 'BUY' | 'SELL' | 'DIVIDEND_CASH' | 'DIVIDEND_STOCK';
+  type: 'BUY' | 'SELL' | 'DIVIDEND_CASH' | 'DIVIDEND_STOCK' | 'SPLIT';
   price?: number;     // Stock price at the time (optional for dividends if not reinvested)
   shares?: number;    // Shares involved (bought/sold/received)
   dividendPerShare?: number; // New field: Cash dividend amount per share
@@ -41,24 +41,24 @@ export interface BacktestResult {
   finalPrice: number;
   initialShares: number;
   finalShares: number;
-  
+
   // Financial Metrics
   marketValue: number;
   capitalGains: number;
   totalCashDividends: number;
   totalReturn: number;
   returnRate: number;
-  
+
   // Benchmark (e.g., 0050)
   benchmark?: BenchmarkResult;
 
   // New Stats for UI
   maxDrawdown: number; // Percentage (e.g., -12.5)
   winRate: number;     // Percentage
-  
+
   // Charting
   chartData: ChartDataPoint[];
-  
+
   // Detailed History
   events: TransactionEvent[];
 }
