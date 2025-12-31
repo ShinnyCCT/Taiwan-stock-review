@@ -138,7 +138,7 @@ const InputForm: React.FC<InputFormProps> = ({ initialValues, onSubmit, isLoadin
                     max={formData.endDate}
                     value={formData.startDate}
                     onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                    className={inputClass}
+                    className={`${inputClass} pr-10`}
                   />
                 </div>
                 <div className="w-full">
@@ -150,7 +150,7 @@ const InputForm: React.FC<InputFormProps> = ({ initialValues, onSubmit, isLoadin
                     max={maxAllowedDate}
                     value={formData.endDate}
                     onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                    className={inputClass}
+                    className={`${inputClass} pr-10`}
                   />
                 </div>
               </div>

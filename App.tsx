@@ -67,6 +67,56 @@ const App: React.FC = () => {
     }
   };
 
+  // Double-back-to-exit functionality
+  const lastBackPressRef = React.useRef<number>(0);
+  const [showExitToast, setShowExitToast] = React.useState(false);
+
+  // Handle browser back button behavior
+  React.useEffect(() => {
+    const handlePopState = (e: PopStateEvent) => {
+      // If we have state in the history, it means we're in results or comparison view
+      if (e.state && e.state.view && e.state.view !== 'dashboard') {
+        setView(e.state.view);
+      } else {
+        // We're on dashboard - implement double-back-to-exit
+        const now = Date.now();
+        const timeSinceLastBack = now - lastBackPressRef.current;
+
+        if (timeSinceLastBack < 2000) {
+          // Second press within 2 seconds - allow exit
+          setShowExitToast(false);
+          // Don't prevent - let browser navigate away
+        } else {
+          // First press - prevent exit and show toast
+          lastBackPressRef.current = now;
+          setShowExitToast(true);
+
+          // Push a dummy state to prevent immediate exit
+          window.history.pushState({ view: 'dashboard' }, '', window.location.href);
+
+          // Hide toast after 2 seconds
+          setTimeout(() => setShowExitToast(false), 2000);
+        }
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    // Set initial history state
+    window.history.replaceState({ view: 'dashboard' }, '', window.location.href);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
+  // Push history state when view changes
+  React.useEffect(() => {
+    if (view === 'results' || view === 'comparison') {
+      window.history.pushState({ view }, '', window.location.href);
+    }
+  }, [view]);
+
   const handleBacktest = async (input: BacktestInput) => {
     // Save the configuration being used
     setSavedConfig(input);
@@ -161,6 +211,16 @@ const App: React.FC = () => {
 
       {/* Help Modal */}
       <HelpModal isOpen={showHelp} onClose={() => setShowHelp(false)} />
+
+      {/* Exit Toast - Double back to exit */}
+      {showExitToast && (
+        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 animate-fade-in">
+          <div className="bg-surface-dark border border-surface-border px-6 py-3 rounded-xl shadow-2xl flex items-center gap-2">
+            <span className="material-symbols-outlined text-primary text-[20px]">info</span>
+            <span className="text-white text-sm font-medium">再按一次返回鍵即可離開</span>
+          </div>
+        </div>
+      )}
 
       {/* Desktop Sidebar - Visible on md+ */}
       <div className="hidden md:flex flex-col w-96 h-full border-r border-surface-border bg-background-dark shrink-0 overflow-y-auto scrollbar-hide">
@@ -383,7 +443,7 @@ const App: React.FC = () => {
           <div className="md:hidden absolute bottom-6 inset-x-4 z-20 flex justify-center">
             <button
               onClick={handleNewBacktest}
-              className="w-[85%] flex items-center justify-center gap-2 h-11 rounded-xl bg-primary hover:bg-[#1bc755] text-background-dark text-base font-bold transition-all active:shadow-[0_0_20px_rgba(32,223,96,0.6)] active:scale-95 shadow-none"
+              className="w-[86.05%] flex items-center justify-center gap-2 h-11 rounded-xl bg-primary hover:bg-[#1bc755] text-background-dark text-base font-bold transition-all active:shadow-[0_0_20px_rgba(32,223,96,0.6)] active:scale-95 shadow-none"
             >
               <span className="material-symbols-outlined text-[20px]">add</span>
               建立新回測 (New Backtest)
