@@ -40,6 +40,33 @@ const App: React.FC = () => {
   const [history, setHistory] = useState<BacktestResult[]>([]);
   const [error, setError] = useState<string | null>(null);
 
+  // Swipe Gesture Logic
+  const touchStartRef = React.useRef<number | null>(null);
+  const touchEndRef = React.useRef<number | null>(null);
+  const minSwipeDistance = 50; // px
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchEndRef.current = null;
+    touchStartRef.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    touchEndRef.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartRef.current || !touchEndRef.current) return;
+
+    const distance = touchStartRef.current - touchEndRef.current;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    // Right swipe (start from left edge < 50px) to open sidebar
+    if (isRightSwipe && touchStartRef.current < 50) {
+      setIsMobileMenuOpen(true);
+    }
+  };
+
   const handleBacktest = async (input: BacktestInput) => {
     // Save the configuration being used
     setSavedConfig(input);
@@ -125,7 +152,12 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="flex h-[100dvh] w-full overflow-hidden">
+    <div
+      className="flex h-[100dvh] w-full overflow-hidden"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
 
       {/* Help Modal */}
       <HelpModal isOpen={showHelp} onClose={() => setShowHelp(false)} />
@@ -348,10 +380,10 @@ const App: React.FC = () => {
 
         {/* Mobile Sticky New Backtest Button (Only in results view) */}
         {view === 'results' && (
-          <div className="md:hidden absolute bottom-6 inset-x-4 z-20">
+          <div className="md:hidden absolute bottom-6 inset-x-4 z-20 flex justify-center">
             <button
               onClick={handleNewBacktest}
-              className="w-full flex items-center justify-center gap-2 h-11 rounded-xl bg-primary hover:bg-[#1bc755] text-background-dark text-base font-bold shadow-[0_4px_20px_rgba(32,223,96,0.4)] transition-transform"
+              className="w-[85%] flex items-center justify-center gap-2 h-11 rounded-xl bg-primary hover:bg-[#1bc755] text-background-dark text-base font-bold transition-all active:shadow-[0_0_20px_rgba(32,223,96,0.6)] active:scale-95 shadow-none"
             >
               <span className="material-symbols-outlined text-[20px]">add</span>
               建立新回測 (New Backtest)
