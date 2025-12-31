@@ -111,7 +111,7 @@ const InputForm: React.FC<InputFormProps> = ({ initialValues, onSubmit, isLoadin
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className={labelClass}>開始日期</label>
                   <input
