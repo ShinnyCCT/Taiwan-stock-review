@@ -74,10 +74,11 @@ const App: React.FC = () => {
   // Handle browser back button behavior
   React.useEffect(() => {
     const handlePopState = (e: PopStateEvent) => {
-      // If we have state in the history, it means we're in results or comparison view
-      if (e.state && e.state.view && e.state.view !== 'dashboard') {
-        setView(e.state.view);
-      } else {
+      // Check current view - if we're on results or comparison, go back to dashboard
+      if (view === 'results' || view === 'comparison') {
+        setView('dashboard');
+        setShowExitToast(false);
+      } else if (view === 'dashboard') {
         // We're on dashboard - implement double-back-to-exit
         const now = Date.now();
         const timeSinceLastBack = now - lastBackPressRef.current;
@@ -108,9 +109,9 @@ const App: React.FC = () => {
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
-  }, []);
+  }, [view]);
 
-  // Push history state when view changes
+  // Push history state when view changes to results/comparison
   React.useEffect(() => {
     if (view === 'results' || view === 'comparison') {
       window.history.pushState({ view }, '', window.location.href);
@@ -443,7 +444,7 @@ const App: React.FC = () => {
           <div className="md:hidden absolute bottom-6 inset-x-4 z-20 flex justify-center">
             <button
               onClick={handleNewBacktest}
-              className="w-[86.05%] flex items-center justify-center gap-2 h-11 rounded-xl bg-primary hover:bg-[#1bc755] text-background-dark text-base font-bold transition-all active:shadow-[0_0_20px_rgba(32,223,96,0.6)] active:scale-95 shadow-none"
+              className="w-[88.05%] flex items-center justify-center gap-2 h-11 rounded-xl bg-primary hover:bg-[#1bc755] text-background-dark text-base font-bold transition-all active:shadow-[0_0_20px_rgba(32,223,96,0.6)] active:scale-95 shadow-none"
             >
               <span className="material-symbols-outlined text-[20px]">add</span>
               建立新回測 (New Backtest)
