@@ -11,14 +11,14 @@ const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
       <div className="bg-surface-dark border border-surface-border rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative flex flex-col">
-        
+
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-surface-border sticky top-0 bg-surface-dark z-10">
           <h2 className="text-2xl font-bold text-white flex items-center gap-3">
             <span className="material-symbols-outlined text-primary text-3xl">info</span>
             關於 Retrace.tw
           </h2>
-          <button 
+          <button
             onClick={onClose}
             className="text-gray-400 hover:text-white transition-colors p-1 rounded-lg hover:bg-white/10"
           >
@@ -28,21 +28,21 @@ const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
 
         {/* Content */}
         <div className="p-6 space-y-8 text-gray-300">
-          
+
           {/* Intro */}
           <section>
             <h3 className="text-lg font-bold text-white mb-2">這是什麼工具？</h3>
             <p className="leading-relaxed">
-              Retrace.tw 是一個針對台灣股市設計的量化回測工具。我們整合了歷史股價與除權息資料，
-              協助投資人模擬在特定時間點投入資金後，經過市場波動與股息再投入（DRIP）後的資產變化，
-              並與市場標竿（如 006208 富邦台50）進行績效比較。
-            </p>
+              Retrace.tw 是一個針對台灣股市設計的量化回測工具。CCT整合了歷史股價與除權息資料，
+              協助模擬在特定時間點投入資金後，經過市場波動與股息再投入（DRIP）後的資產變化，
+              並與市場標竿（如 006208 富邦台50）進行績效比較。<br />
+              採用FinMind API作為資料來源，回測數據皆為參考使用，歡迎技術交流            </p>
           </section>
 
           {/* Settings Guide */}
           <section>
             <h3 className="text-lg font-bold text-white mb-4 border-l-4 border-primary pl-3">參數設定說明</h3>
-            
+
             <div className="grid gap-6">
               <div className="bg-background-dark p-4 rounded-lg border border-surface-border">
                 <div className="flex items-center gap-2 mb-2">
@@ -94,7 +94,7 @@ const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
 
         {/* Footer */}
         <div className="p-6 border-t border-surface-border bg-background-dark rounded-b-xl flex justify-end">
-          <button 
+          <button
             onClick={onClose}
             className="px-6 py-2 bg-primary text-background-dark font-bold rounded-lg hover:bg-[#1bc755] transition-colors"
           >
