@@ -1,26 +1,11 @@
 import { BacktestInput, BacktestResult, ChartDataPoint, TransactionEvent } from "../types";
-import { fetchFugleHistory, FugleCandle } from "./fugleService";
+import { fetchFugleHistory, FugleCandle, getSplitEvents, SplitEvent } from "./fugleService";
 import { fetchFinMindDividends, FinMindDividend, fetchStockInfo, findStockByKeyword } from "./finMindService";
 
 // --- Constants for TW Stock Market ---
 const TW_TAX_RATE = 0.003; // 0.3% Securities Transaction Tax
 const TW_FEE_RATE = 0.001425; // 0.1425% Brokerage Fee
 const MIN_FEE = 20;
-
-// --- Stock Split Events ---
-// 0050: 1:4 split, effective 2025-06-18 (first trading day after split)
-// 00663L: 1:7 split, effective 2025-06-11 (first trading day after split)
-const SPLIT_EVENTS = [
-  { symbol: '0050', effectiveDate: '2025-06-18', ratio: 4, description: '1拆4股票分割' },
-  { symbol: '00663L', effectiveDate: '2025-06-11', ratio: 7, description: '1拆7股票分割' },
-  { symbol: '2327', effectiveDate: '2025-08-25', ratio: 4, description: '1拆4股票分割 (國巨)' },
-  { symbol: '5314', effectiveDate: '2025-03-20', ratio: 20, description: '1拆20股票分割 (世紀)' },
-  { symbol: '6415', effectiveDate: '2022-07-13', ratio: 4, description: '1拆4股票分割 (矽力-KY)' },
-  { symbol: '6548', effectiveDate: '2022-09-05', ratio: 2.5, description: '1拆2.5股票分割 (長科)' },
-  { symbol: '5536', effectiveDate: '2022-09-19', ratio: 2, description: '1拆2股票分割 (聖暉)' },
-  { symbol: '6613', effectiveDate: '2022-08-29', ratio: 2, description: '1拆2股票分割 (朋億)' },
-  { symbol: '6531', effectiveDate: '2021-10-18', ratio: 2, description: '1拆2股票分割 (愛普)' },
-];
 
 // --- Helper: Local Math Calculation ---
 const calculateBacktestStrategy = (
@@ -80,8 +65,8 @@ const calculateBacktestStrategy = (
   // Dividend Queue Pointer
   let divIndex = 0;
 
-  // Split Tracker - keep track of which splits have been applied
-  const applicableSplits = SPLIT_EVENTS.filter(s => s.symbol === input.symbol);
+  // Split Tracker - get split events for this symbol from centralized source
+  const applicableSplits = getSplitEvents(input.symbol, startDate, endDate);
   const appliedSplits = new Set<string>();
 
   for (const dayCandle of sortedPrices) {
@@ -90,13 +75,13 @@ const calculateBacktestStrategy = (
 
     // A0. Check for Stock Splits
     for (const split of applicableSplits) {
-      if (!appliedSplits.has(split.effectiveDate) && todayStr >= split.effectiveDate) {
+      if (!appliedSplits.has(split.date) && todayStr >= split.date) {
         const sharesBefore = shares;
         shares = shares * split.ratio;
-        appliedSplits.add(split.effectiveDate);
+        appliedSplits.add(split.date);
 
         events.push({
-          date: split.effectiveDate,
+          date: split.date,
           type: 'SPLIT',
           shares: shares - sharesBefore, // Net new shares
           amount: 0, // No cash changes
