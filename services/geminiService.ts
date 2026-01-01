@@ -13,6 +13,13 @@ const MIN_FEE = 20;
 const SPLIT_EVENTS = [
   { symbol: '0050', effectiveDate: '2025-06-18', ratio: 4, description: '1拆4股票分割' },
   { symbol: '00663L', effectiveDate: '2025-06-11', ratio: 7, description: '1拆7股票分割' },
+  { symbol: '2327', effectiveDate: '2025-08-25', ratio: 4, description: '1拆4股票分割 (國巨)' },
+  { symbol: '5314', effectiveDate: '2025-03-20', ratio: 20, description: '1拆20股票分割 (世紀)' },
+  { symbol: '6415', effectiveDate: '2022-07-13', ratio: 4, description: '1拆4股票分割 (矽力-KY)' },
+  { symbol: '6548', effectiveDate: '2022-09-05', ratio: 2.5, description: '1拆2.5股票分割 (長科)' },
+  { symbol: '5536', effectiveDate: '2022-09-19', ratio: 2, description: '1拆2股票分割 (聖暉)' },
+  { symbol: '6613', effectiveDate: '2022-08-29', ratio: 2, description: '1拆2股票分割 (朋億)' },
+  { symbol: '6531', effectiveDate: '2021-10-18', ratio: 2, description: '1拆2股票分割 (愛普)' },
 ];
 
 // --- Helper: Local Math Calculation ---
