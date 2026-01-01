@@ -71,3 +71,17 @@ body {
   overflow: hidden;
   touch-action: pan-y;
 }
+
+/* iOS Safari - prevent auto-zoom on input focus */
+/* Safari zooms when font-size < 16px, so we force 16px on mobile */
+@media screen and (-webkit-min-device-pixel-ratio: 0) and (max-width: 768px) {
+
+  input,
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
