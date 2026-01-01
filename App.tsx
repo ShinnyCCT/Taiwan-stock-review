@@ -381,7 +381,7 @@ const App: React.FC = () => {
             </div>
 
             {/* Mobile Descriptions (Below title/header) */}
-            <div className="md:hidden mt-1">
+            <div className="md:hidden mt-0">
               {/* Result Tags are already handled above in the right column div which wraps on mobile */}
               {/* We just need to ensure Descriptions show up if needed, or if they are hidden/moved */}
               {view === 'comparison' && (
@@ -399,7 +399,7 @@ const App: React.FC = () => {
         </div>
 
         {/* Content Body */}
-        <div className={`flex-1 overflow-y-auto p-4 md:p-6 scrollbar-hide ${view === 'results' ? 'pb-24' : 'pb-12'}`}>
+        <div className={`flex-1 overflow-y-auto p-2 md:p-6 scrollbar-hide ${view === 'results' ? 'pb-24' : 'pb-12'}`}>
           <div className="max-w-7xl mx-auto flex flex-col gap-6 h-full">
 
             {/* View: Dashboard / Input */}

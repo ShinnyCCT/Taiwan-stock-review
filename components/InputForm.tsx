@@ -66,7 +66,7 @@ const InputForm: React.FC<InputFormProps> = ({ initialValues, onSubmit, isLoadin
   };
 
   // Compact Styles
-  const sectionTitleClass = "text-white text-sm md:text-base font-bold flex items-center gap-2 mb-2 md:mb-3";
+  const sectionTitleClass = "text-white text-sm md:text-base font-bold flex items-center gap-2 mb-1 md:mb-3";
   const labelClass = "block mb-1 text-xs font-medium text-gray-300";
   const inputClass = "w-full bg-background-dark/50 border border-surface-border text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2 md:p-2.5 placeholder-gray-600 transition-colors hover:border-gray-500";
   const dateBtnClass = (active: boolean) =>
@@ -76,13 +76,13 @@ const InputForm: React.FC<InputFormProps> = ({ initialValues, onSubmit, isLoadin
     }`;
 
   return (
-    <div className="bg-surface-dark border border-surface-border rounded-xl p-4 md:p-5 shadow-sm">
+    <div className="bg-surface-dark border border-surface-border rounded-xl p-3 md:p-5 shadow-sm">
       <form onSubmit={handleSubmit}>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-6 gap-y-4 md:gap-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-6 gap-y-3 md:gap-y-6">
 
           {/* Left Column: Stock & Date (Col Span 7) */}
-          <div className="lg:col-span-7 flex flex-col gap-3 md:gap-5">
+          <div className="lg:col-span-7 flex flex-col gap-2 md:gap-5">
 
             {/* Stock Section */}
             <div>
@@ -162,7 +162,7 @@ const InputForm: React.FC<InputFormProps> = ({ initialValues, onSubmit, isLoadin
           </div>
 
           {/* Right Column: Money & Options (Col Span 5) */}
-          <div className="lg:col-span-5 flex flex-col gap-5">
+          <div className="lg:col-span-5 flex flex-col gap-4 md:gap-5">
 
             {/* Money Section */}
             <div>
